@@ -1,0 +1,25 @@
+.about-us{
+    box-sizing: border-box;
+ width: 80%;
+ height: 70vh;   
+ border: 2px solid white;
+ margin: auto;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ p{
+    font-size: 28px;
+   animation: textAnim 3s ease 0ms infinite forwards;
+ }
+}
+@keyframes textAnim {
+   0%{
+      opacity: 0;
+   }
+   50%{
+      opacity: 1;
+   }
+   100%{
+      opacity: 0;
+   }
+}
