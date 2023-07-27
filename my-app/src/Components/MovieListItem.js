@@ -28,7 +28,7 @@ className="movie-item">
           <span className="movie-item-imdb-score">
             
             <i className="fa-solid fa-star icon" style={{color: " #ffd500"}}></i>
-            {imdbRate}
+            {imdbRate.replace("/10","")}
           </span>
           <span>
             <i className="fa-sharp fa-regular fa-star icon" style={{color: "#4d84cc"}} ></i>

@@ -1,32 +1,114 @@
-import React, { Component } from 'react';
-import MovieListItem from './MovieListItem';
+import React, { Component } from "react";
+import MovieListItem from "./MovieListItem";
 
-import p1 from "../Images/poster/1.jpg"
-import p2 from "../Images/poster/2.jpg"
-import p3 from "../Images/poster/3.jpg"
-import p4 from "../Images/poster/4.jpg"
-import p5 from "../Images/poster/5.jpg"
-import p6 from "../Images/poster/6.jpg"
-import p7 from "../Images/poster/7.jpg"
-
+import p1 from "../Images/movies/1.jpg";
+import p2 from "../Images/movies/2.jpg";
+import p3 from "../Images/movies/3.jpg";
+import p4 from "../Images/movies/4.jpg";
+import p5 from "../Images/movies/5.jpg";
+import p6 from "../Images/movies/6.jpg";
+import p7 from "../Images/movies/7.jpg";
 
 class MoviesList extends Component {
+
+  MovieFiltering=(selectedCatecoryArray)=>{
+    console.log ( this.props.AllMovies);
+    let result=  this.props.AllMovies.filter((movieData)=>{
+      let resultOfMovie=  this.CheckMovieIs(movieData,selectedCatecoryArray);
+      console.log("resultOfMovie  : "+ resultOfMovie);
+        return resultOfMovie;
+      });
+      console.log("result : "+  result);
+      return result;
+    
  
-    render() { 
-        return (<div className="vertical-list">
-             <MovieListItem imgLink={p1} imdbRate={"6.2"} movieName={"Fast X"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p2} imdbRate={"7.1"} movieName={"Transformers: Rise of the Beasts"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p3} imdbRate={"6.5"} movieName={"The Covenant"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p4} imdbRate={"8.3"} movieName={"Creed III"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p5} imdbRate={"6.6"} movieName={"The Dark Knight"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p6} imdbRate={"7.7"} movieName={"The Boogeyman"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p7} imdbRate={"6.7"} movieName={"The SpiderMan"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p1} imdbRate={"6.2"} movieName={"Fast X"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p2} imdbRate={"7.1"} movieName={"Transformers: Rise of the Beasts"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-             <MovieListItem imgLink={p3} imdbRate={"6.5"} movieName={"The Covenant"} movieLink={"./test"} trailerLink={"./test2" } isWatchlist={false}  isFavirate={false}/>
-            
-        </div>);
+  }
+  CheckMovieIs=(movieData,listOfCatecory)=>{
+    let includeThisMovie=false;
+    //console.log("listOfCatecory  : "+listOfCatecory)
+    if(listOfCatecory.length==0){
+     // console.log("Checking  : NoCatecory")
+      includeThisMovie=true;
     }
+    listOfCatecory.forEach(catecory => {
+      //console.log("Checking  : movieData " +movieData.Genre)
+      if(movieData.Genre.includes(catecory)&&(this.props.TypedText.length>0&&movieData.Title.toLowerCase().includes(this.props.TypedText.toLowerCase())||this.props.TypedText.length<1)){
+       // console.log("Include");
+       
+        includeThisMovie=true;
+        
+      }
+    });
+
+    return includeThisMovie;
+  }
+
+  //     let moviesJson = this.state.moviesJson;
+  //     if (moviesJson != null) {
+  //       moviesJson.map((moviePost) => {
+  //         console.log(" Movie : " + moviePost.Id);
+  //         this.setState({
+  //           moviesListState:[...this.state.moviesListState,
+  //             <MovieListItem
+  //               imgLink={p2}
+  //               imdbRate={"7.1"}
+  //               movieName={"Transformers: Rise of the Beasts"}
+  //               movieLink={"./test"}
+  //               trailerLink={"./test2"}
+  //               isWatchlist={false}
+  //               isFavirate={false}
+  //             />
+  //         ]
+
+  //         });
+  //       });
+  //     } else {
+  //       console.log("is Null");
+  //     }
+  //   };
+  render() {
+    return (
+      <div className="vertical-list">
+        {
+           this.props.AllMovies!=null&&this.props.TypedText!=null && 
+           this.MovieFiltering(this.props.SelectedCatecory).map((movieData)=> {
+            return (
+              <MovieListItem
+                key={movieData.Id}
+                imgLink={movieData.Poster}
+                imdbRate={movieData.Ratings[0].Value}
+                movieName={movieData.Title}
+                movieLink={"./posts/"+movieData.Id}
+                trailerLink={"./trailers/"+movieData.Id}
+                isWatchlist={false}
+                isFavirate={false}
+               
+              />
+            );
+           })
+        }
+        {/* {this.props.AllMovies!=null && 
+       
+          this.props.AllMovies.map((movieData) => {
+           
+          
+            return (
+              <MovieListItem
+                key={movieData.Id}
+                imgLink={movieData.Poster}
+                imdbRate={movieData.Ratings[0].Value}
+                movieName={movieData.Title}
+                movieLink={"./test"}
+                trailerLink={"./test2"}
+                isWatchlist={false}
+                isFavirate={false}
+              />
+            );
+          })
+          } */}
+      </div>
+    );
+  }
 }
- 
+
 export default MoviesList;
