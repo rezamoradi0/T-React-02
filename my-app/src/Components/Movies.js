@@ -6,7 +6,7 @@ class Movies extends Component {
   constructor() {
     super();
     this.thisIndex = 1;
-    console.log("TEST 4");
+    console.log("TEST 5");
     this.state = {
       moviesJson: null,
       catecorys: [],
